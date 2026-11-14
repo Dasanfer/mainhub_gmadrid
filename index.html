@@ -130,6 +130,7 @@ body::after {
 .hub-profile {
     text-align: center;
     margin-bottom: 25px;
+    opacity: 0;
     animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -191,7 +192,7 @@ body::after {
     overflow: hidden;
 }
 
-/* ANIMACIONES LATERALES CON RASTRO DE ARCOÍRIS */
+/* ANIMACIONES LATERALES CON RASTRO DE ARCOÍRIS ORIGINALES */
 @keyframes entrarIzquierdaConRastro {
     0% { opacity: 0; transform: translateX(-100vw); box-shadow: -20px 0 30px rgba(228, 3, 3, 0.6), -10px 0 15px rgba(0, 68, 212, 0.4); }
     60% { opacity: 1; box-shadow: -10px 0 20px rgba(255, 140, 0, 0.5), -5px 0 10px rgba(0, 128, 38, 0.3); }
@@ -224,12 +225,23 @@ body::after {
     opacity: 0;
 }
 
-/* EFECTO AL HACER CLIC (EFECTO MUELLE - SOLO ACTIVOS) */
+.hub-link-card:nth-child(odd) {
+    animation: entrarIzquierdaConRastro 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hub-link-card:nth-child(even) {
+    animation: entrarDerechaConRastro 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hub-link-card:nth-child(1) { animation-delay: 0.1s; }
+.hub-link-card:nth-child(2) { animation-delay: 0.2s; }
+.hub-link-card:nth-child(3) { animation-delay: 0.3s; }
+.hub-link-card:nth-child(4) { animation-delay: 0.4s; }
+
 .hub-link-card:not(.proximamente):active {
     transform: scale(0.97) !important;
 }
 
-/* ANIMACIÓN DE DESTELLO LUMINOSO (GLOW) AL HACER HOVER */
 @keyframes brilloDestello {
     0% { transform: translateX(-100%) rotate(25deg); }
     100% { transform: translateX(200%) rotate(25deg); }
@@ -251,20 +263,6 @@ body::after {
     opacity: 1;
     animation: brilloDestello 0.75s ease-in-out;
 }
-
-/* ASIGNACIÓN DE ANIMACIONES CON RASTRO DE ARCOÍRIS */
-.hub-link-card:nth-child(odd) {
-    animation: entrarIzquierdaConRastro 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.hub-link-card:nth-child(even) {
-    animation: entrarDerechaConRastro 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.hub-link-card:nth-child(1) { animation-delay: 0.1s; }
-.hub-link-card:nth-child(2) { animation-delay: 0.2s; }
-.hub-link-card:nth-child(3) { animation-delay: 0.3s; }
-.hub-link-card:nth-child(4) { animation-delay: 0.4s; }
 
 @keyframes bordeArcoirisMovil {
     0% { filter: hue-rotate(0deg); }
@@ -332,10 +330,8 @@ body::after {
     color: #750087;
 }
 
-/* ESTILOS ESPECÍFICOS PARA TARJETAS PRÓXIMAMENTE */
 .hub-link-card.proximamente {
     cursor: not-allowed;
-    opacity: 0.9;
 }
 
 .hub-link-card.proximamente:hover {
@@ -343,7 +339,6 @@ body::after {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
 
-/* ETIQUETA PRÓXIMAMENTE CON ARCOÍRIS Y PULSO */
 @keyframes pulsoArcoiris {
     0% { transform: scale(1); filter: brightness(1); }
     50% { transform: scale(1.04); filter: brightness(1.15); }
@@ -363,7 +358,20 @@ body::after {
     animation: bgArcoiris 6s ease infinite, pulsoArcoiris 2.5s ease-in-out infinite;
 }
 
-/* PIE DE PÁGINA */
+/* PIE DE PÁGINA Y EFECTO FLOTANTE/ARCOÍRIS DE LA CITA */
+@keyframes flotarCita {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes arcoirisGlow {
+    0% { box-shadow: 0 4px 15px rgba(228, 3, 3, 0.15), 0 0 10px rgba(117, 0, 135, 0.1); }
+    33% { box-shadow: 0 4px 15px rgba(0, 128, 38, 0.15), 0 0 10px rgba(0, 68, 212, 0.1); }
+    66% { box-shadow: 0 4px 15px rgba(117, 0, 135, 0.15), 0 0 10px rgba(255, 140, 0, 0.1); }
+    100% { box-shadow: 0 4px 15px rgba(228, 3, 3, 0.15), 0 0 10px rgba(117, 0, 135, 0.1); }
+}
+
 .hub-footer {
     text-align: center;
     font-size: 12px;
@@ -373,8 +381,8 @@ body::after {
     width: 100%;
     padding-top: 15px;
     line-height: 1.4;
-    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
     opacity: 0;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
 }
 
 @keyframes fadeInUp {
@@ -384,16 +392,19 @@ body::after {
 
 .hub-footer blockquote {
     margin: 0 0 10px 0;
-    padding: 10px 14px;
-    border-left: 3px solid #750087;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(5px);
-    border-radius: 0 8px 8px 0;
+    padding: 12px 16px;
+    border-left: 4px solid #750087;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    border-radius: 0 10px 10px 0;
     font-style: italic;
     color: var(--text-main);
     font-size: 12.5px;
     text-align: left;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-left-width: 4px;
+    border-left-color: #750087;
+    animation: flotarCita 4s ease-in-out infinite, arcoirisGlow 8s linear infinite;
 }
 
 .hub-footer b {
