@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<rect y="0" width="64" height="10.6" fill="%23e40303"/>
+<rect y="10.6" width="64" height="10.6" fill="%23ff8c00"/>
+<rect y="21.2" width="64" height="10.6" fill="%23ffed00"/>
+<rect y="31.8" width="64" height="10.6" fill="%23008026"/>
+<rect y="42.4" width="64" height="10.6" fill="%230044d4"/>
+<rect y="53" width="64" height="11" fill="%23750087"/>
+<rect x="12" y="12" width="40" height="40" rx="8" fill="white" stroke="black" stroke-width="3"/>
+<circle cx="22" cy="22" r="3.5" fill="black"/>
+<circle cx="42" cy="22" r="3.5" fill="black"/>
+<circle cx="32" cy="32" r="3.5" fill="black"/>
+<circle cx="22" cy="42" r="3.5" fill="black"/>
+<circle cx="42" cy="42" r="3.5" fill="black"/>
+</svg>'>
+
+<title>Hub Central de Gestión - GMadrid Juegos de Mesa</title>
+
+<style>
+:root {
+    --primary: #0078d4;
+    --primary-dark: #005a9e;
+    --card-bg: rgba(255, 255, 255, 0.88);
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: rgba(226, 232, 240, 0.8);
+    --radius: 14px;
+}
+
+/* BLOQUEO TOTAL DE SCROLL */
+html, body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* FONDO ANIMADO CON DEGRADADO ARCOÍRIS GENERAL */
+@keyframes bgArcoiris {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(228, 3, 3, 0.14), rgba(255, 140, 0, 0.14), rgba(255, 237, 0, 0.14), rgba(0, 128, 38, 0.14), rgba(0, 68, 212, 0.14), rgba(117, 0, 135, 0.14));
+    background-size: 400% 400%;
+    z-index: -2;
+    animation: bgArcoiris 15s ease infinite;
+}
+
+/* ESQUINA SUPERIOR DERECHA CON ARCOÍRIS DINÁMICO */
+@keyframes esquinaArcoiris1 {
+    0% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+    50% { transform: scale(1.15) rotate(180deg); opacity: 0.85; }
+    100% { transform: scale(1) rotate(360deg); opacity: 0.6; }
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 280px;
+    height: 280px;
+    background: linear-gradient(135deg, #e40303, #ff8c00, #ffed00, #008026, #0044d4, #750087);
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(45px);
+    pointer-events: none;
+    animation: esquinaArcoiris1 10s ease-in-out infinite;
+}
+
+/* ESQUINA INFERIOR IZQUIERDA CON ARCOÍRIS DINÁMICO (OPUESTA) */
+@keyframes esquinaArcoiris2 {
+    0% { transform: scale(1.15) rotate(360deg); opacity: 0.85; }
+    50% { transform: scale(1) rotate(180deg); opacity: 0.6; }
+    100% { transform: scale(1.15) rotate(0deg); opacity: 0.85; }
+}
+
+.esquina-opuesta-bg {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 280px;
+    height: 280px;
+    background: linear-gradient(135deg, #750087, #0044d4, #008026, #ffed00, #ff8c00, #e40303);
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(45px);
+    pointer-events: none;
+    animation: esquinaArcoiris2 10s ease-in-out infinite;
+}
+
+.hub-container {
+    width: 100%;
+    max-width: 540px;
+    max-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* PERFIL / CABECERA */
+.hub-profile {
+    text-align: center;
+    margin-bottom: 25px;
+    animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* AVATAR DADO CON DEGRADADO ARCOÍRIS Y EFECTO FLOTANTE */
+@keyframes dadoArcoiris {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes flotar {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0px); }
+}
+
+.hub-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #e40303, #ff8c00, #ffed00, #008026, #0044d4, #750087);
+    background-size: 300% 300%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 12px auto;
+    box-shadow: 0 8px 25px rgba(117, 0, 135, 0.3);
+    font-size: 34px;
+    animation: dadoArcoiris 8s ease infinite, flotar 4s ease-in-out infinite;
+}
+
+.hub-profile h1 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+}
+
+.hub-profile p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin: 0;
+    font-weight: 500;
+}
+
+/* LISTA DE ENLACES */
+.hub-links-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+/* ANIMACIONES LATERALES CON RASTRO DE ARCOÍRIS */
+@keyframes entrarIzquierdaConRastro {
+    0% { opacity: 0; transform: translateX(-100vw); box-shadow: -20px 0 30px rgba(228, 3, 3, 0.6), -10px 0 15px rgba(0, 68, 212, 0.4); }
+    60% { opacity: 1; box-shadow: -10px 0 20px rgba(255, 140, 0, 0.5), -5px 0 10px rgba(0, 128, 38, 0.3); }
+    100% { opacity: 1; transform: translateX(0); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); }
+}
+
+@keyframes entrarDerechaConRastro {
+    0% { opacity: 0; transform: translateX(100vw); box-shadow: 20px 0 30px rgba(117, 0, 135, 0.6), 10px 0 15px rgba(255, 237, 0, 0.4); }
+    60% { opacity: 1; box-shadow: 10px 0 20px rgba(0, 68, 212, 0.5), 5px 0 10px rgba(255, 140, 0, 0.3); }
+    100% { opacity: 1; transform: translateX(0); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); }
+}
+
+.hub-link-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 15px 20px;
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 14.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+}
+
+/* EFECTO AL HACER CLIC (EFECTO MUELLE - SOLO ACTIVOS) */
+.hub-link-card:not(.proximamente):active {
+    transform: scale(0.97) !important;
+}
+
+/* ANIMACIÓN DE DESTELLO LUMINOSO (GLOW) AL HACER HOVER */
+@keyframes brilloDestello {
+    0% { transform: translateX(-100%) rotate(25deg); }
+    100% { transform: translateX(200%) rotate(25deg); }
+}
+
+.hub-link-card:not(.proximamente)::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.hub-link-card:not(.proximamente):hover::after {
+    opacity: 1;
+    animation: brilloDestello 0.75s ease-in-out;
+}
+
+/* ASIGNACIÓN DE ANIMACIONES CON RASTRO DE ARCOÍRIS */
+.hub-link-card:nth-child(odd) {
+    animation: entrarIzquierdaConRastro 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hub-link-card:nth-child(even) {
+    animation: entrarDerechaConRastro 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hub-link-card:nth-child(1) { animation-delay: 0.1s; }
+.hub-link-card:nth-child(2) { animation-delay: 0.2s; }
+.hub-link-card:nth-child(3) { animation-delay: 0.3s; }
+.hub-link-card:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes bordeArcoirisMovil {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+.hub-link-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background: linear-gradient(to bottom, #e40303, #ff8c00, #ffed00, #008026, #0044d4, #750087);
+    background-size: 100% 300%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.hub-link-card:not(.proximamente):hover {
+    transform: translateY(-2px);
+    border: 1px solid transparent;
+    background-image: linear-gradient(var(--card-bg), var(--card-bg)), linear-gradient(135deg, #e40303, #ff8c00, #ffed00, #008026, #0044d4, #750087);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: 0 12px 30px rgba(117, 0, 135, 0.25);
+}
+
+.hub-link-card:not(.proximamente):hover::before {
+    opacity: 1;
+    animation: bordeArcoirisMovil 4s linear infinite;
+}
+
+.link-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.link-icon {
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    background: rgba(241, 245, 249, 0.8);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.hub-link-card:not(.proximamente):hover .link-icon {
+    background: rgba(117, 0, 135, 0.12);
+    transform: scale(1.1) rotate(5deg);
+}
+
+.link-arrow {
+    color: var(--text-muted);
+    font-size: 15px;
+    transition: transform 0.2s, color 0.2s;
+}
+
+.hub-link-card:not(.proximamente):hover .link-arrow {
+    transform: translateX(3px);
+    color: #750087;
+}
+
+/* ESTILOS ESPECÍFICOS PARA TARJETAS PRÓXIMAMENTE */
+.hub-link-card.proximamente {
+    cursor: not-allowed;
+    opacity: 0.9;
+}
+
+.hub-link-card.proximamente:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+/* ETIQUETA PRÓXIMAMENTE CON ARCOÍRIS Y PULSO */
+@keyframes pulsoArcoiris {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.04); filter: brightness(1.15); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+
+.badge-proximamente {
+    background: linear-gradient(135deg, #e40303, #ff8c00, #ffed00, #008026, #0044d4, #750087);
+    background-size: 300% 300%;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(117, 0, 135, 0.25);
+    animation: bgArcoiris 6s ease infinite, pulsoArcoiris 2.5s ease-in-out infinite;
+}
+
+/* PIE DE PÁGINA */
+.hub-footer {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+    padding-top: 15px;
+    line-height: 1.4;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hub-footer blockquote {
+    margin: 0 0 10px 0;
+    padding: 10px 14px;
+    border-left: 3px solid #750087;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text-main);
+    font-size: 12.5px;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.hub-footer b {
+    color: var(--text-main);
+}
+</style>
+</head>
+<body>
+
+<!-- Elementos decorativos para las esquinas -->
+<div class="esquina-opuesta-bg"></div>
+
+<div class="hub-container">
+
+    <!-- CABECERA Y PERFIL -->
+    <header class="hub-profile">
+        <div class="hub-avatar">🎲</div>
+        <h1>GMadrid Juegos de Mesa</h1>
+        <p>Panel Principal de Herramientas y Gestión 🏳️‍🌈</p>
+    </header>
+
+    <!-- LISTA DE ENLACES PRINCIPALES -->
+    <main class="hub-links-list">
+        
+        <!-- 1. Control de Asistencia (Activo) -->
+        <a href="https://dasanfer.github.io/asistencia_gmadrid/" class="hub-link-card" target="_blank" rel="noopener noreferrer">
+            <div class="link-content">
+                <span class="link-icon">📊</span>
+                <span>Control de Asistencia</span>
+            </div>
+            <span class="link-arrow">➔</span>
+        </a>
+
+        <!-- 2. Sistema de Fichaje (Activo) -->
+        <a href="https://dasanfer.github.io/fichaje_gmadrid/" class="hub-link-card" target="_blank" rel="noopener noreferrer">
+            <div class="link-content">
+                <span class="link-icon">⏱️</span>
+                <span>Sistema de Fichaje</span>
+            </div>
+            <span class="link-arrow">➔</span>
+        </a>
+
+        <!-- 3. Gestión Erasmus (Próximamente) -->
+        <a href="#" class="hub-link-card proximamente" onclick="return false;">
+            <div class="link-content">
+                <span class="link-icon">✈️</span>
+                <span>Gestión Erasmus</span>
+            </div>
+            <span class="badge-proximamente">PRÓXIMAMENTE</span>
+        </a>
+
+        <!-- 4. Propuesta de Juegos (Próximamente) -->
+        <a href="#" class="hub-link-card proximamente" onclick="return false;">
+            <div class="link-content">
+                <span class="link-icon">♟️</span>
+                <span>Propuesta de Juegos</span>
+            </div>
+            <span class="badge-proximamente">PRÓXIMAMENTE</span>
+        </a>
+
+    </main>
+
+    <!-- FOOTER INFORMATIVO -->
+    <footer class="hub-footer">
+        <blockquote>
+            "Uniendo a la comunidad de manera inclusiva alrededor de una mesa compartiendo dados, risas y estrategia 🎲✨"
+        </blockquote>
+        <p>¿Dudas o sugerencias? Contacta con <b>Daniel Sánchez</b></p>
+    </footer>
+
+</div>
+
+</body>
+</html>
