@@ -210,9 +210,28 @@ body::after {
 
 .hub-profile p {
     font-size: 13.5px;
+    color: #750087;
+    margin: 0 0 10px 0;
+    display: inline-block;
+    background: rgba(117, 0, 135, 0.08);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.hub-profile blockquote {
+    margin: 8px auto 0 auto;
+    font-size: 13px;
+    font-style: italic;
     color: var(--text-muted);
-    margin: 0;
-    font-weight: 500;
+    max-width: 480px;
+    line-height: 1.4;
+    border-left: 3px solid #750087;
+    padding-left: 10px;
+    background: rgba(117, 0, 135, 0.03);
+    border-radius: 0 8px 8px 0;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 /* LISTA DE ENLACES */
@@ -393,16 +412,18 @@ body::after {
     animation: bgArcoiris 6s ease infinite, pulsoArcoiris 2.5s ease-in-out infinite;
 }
 
-/* PIE DE PÁGINA CON NUEVO ESTILO DE EMBLEMA/LEMA CENTRAL (NO PARECE ENLACE) */
+/* PIE DE PÁGINA */
 .hub-footer {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.5));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(117, 0, 135, 0.15);
+    padding: 12px 16px;
+    border-radius: 20px;
     text-align: center;
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-    border-top: 1px solid var(--border-color);
     width: 100%;
-    padding-top: 15px;
-    line-height: 1.4;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px rgba(117, 0, 135, 0.05);
     opacity: 0;
     animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
 }
@@ -412,24 +433,20 @@ body::after {
     to { opacity: 1; transform: translateY(0); }
 }
 
-.hub-footer blockquote {
-    margin: 0 auto 12px auto;
-    padding: 10px 18px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.4));
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 20px; /* Forma de píldora / emblema */
-    font-style: italic;
-    color: var(--text-main);
+.hub-footer p {
+    margin: 0;
     font-size: 12px;
-    text-align: center;
-    max-width: 92%;
-    border: 1px solid rgba(117, 0, 135, 0.15);
-    box-shadow: 0 4px 15px rgba(117, 0, 135, 0.05);
+    color: var(--text-muted);
+    font-weight: 500;
+    line-height: 1.4;
 }
 
-.hub-footer b {
-    color: var(--text-main);
+#fechaHoy {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 0 0 6px 0;
+    font-weight: 500;
 }
 </style>
 </head>
@@ -448,6 +465,7 @@ body::after {
         <div class="hub-avatar">🎲</div>
         <h1>GMadrid Juegos de Mesa</h1>
         <p>Panel Principal de Herramientas y Gestión 🏳️‍🌈</p>
+        <blockquote id="fraseDinamica"></blockquote>
     </header>
 
     <!-- LISTA DE ENLACES PRINCIPALES -->
@@ -495,18 +513,100 @@ body::after {
 
     </main>
 
-    <!-- FOOTER INFORMATIVO -->
+    <!-- FOOTER INFORMATIVO CON RELOJ Y CONTACTO -->
     <footer class="hub-footer">
-        <blockquote>
-			"Alrededor del tablero no hay diferencias, solo turnos para compartir y empatizar"
-        </blockquote>
+        <p id="fechaHoy"></p>
+        <p>💬 ¿Tienes algún problema, duda o sugerencia? Contacta con <b>Daniel Sánchez</b></p>
     </footer>
 
 </div>
 
-<!-- SCRIPT PARA LANZAR EMOTES DE JUEGOS DE MESA DE UN LADO A OTRO -->
 <script>
+const frasesJuegos = [
+    "No importa quién seas ni de dónde vengas; en esta mesa todos compartimos las mismas reglas.",
+    "La única estrategia obligatoria aquí es que nadie se quede fuera de la partida.",
+    "Un buen tablero no entiende de etiquetas, solo de dados y ganas de pasarlo bien.",
+    "Aquí venimos a tirar dados, romper alianzas y, sobre todo, a encontrarnos entre iguales.",
+    "Diferentes mesas, distintas personas, una misma pasión por vaciar meeples y sumar puntos.",
+    "La diversidad hace que cada partida sea imprevisible; la inclusión, que todos tengamos sitio en la mesa.",
+    "Abrir hueco en la mesa es la mejor jugada que podemos hacer en toda la tarde.",
+    "No buscamos perfiles perfectos, solo gente dispuesta a reírse, perder y volver a empezar.",
+    "Las fichas son de colores distintos, pero las risas alrededor de la mesa son de todos.",
+    "Mesa abierta, mazo barajado y cero exclusiones: que empiece la partida.",
+    "Jugar en compañía es el único tablero donde la victoria real es que nadie juegue solo.",
+    "Estrategias infinitas y espacios donde cabe todo el mundo sin pedir permiso.",
+    "Da igual tu nivel, tu ritmo o tu mazo: aquí el único requisito es sentarse a compartir.",
+    "Menos postureo y más tardes de tablero compartidas con quien se quiera apuntar.",
+    "El azar decide los dados, pero que todo el mundo sea bienvenido depende de nosotros.",
+    "Una comunidad real no se construye con discursos, sino compartiendo mesa y cartas cada semana.",
+    "Las mejores partidas son aquellas donde caben todas las formas de ser y de jugar.",
+    "Un tablero sobre la mesa y un espacio seguro para ser uno mismo sin filtros.",
+    "No venimos a cambiar el mundo, venimos a cambiar el mundo de turno en turno.",
+    "Aquí la única norma inquebrantable es que hay sitio para todos los que quieran jugar.",
+    "Ganes o pierdas, lo importante es que el asiento de al lado nunca esté vacío.",
+    "Aquí las únicas barreras que tiramos abajo son las que separan un juego difícil.",
+    "No hay rivales pequeños ni personas excluidas cuando el objetivo es echar unas risas.",
+    "Barajar cartas une más que cualquier manual de instrucciones.",
+    "Un espacio donde cada perfil suma una táctica nueva a la partida.",
+    "La verdadera victoria cooperativa es que nadie se sienta invisible en el grupo.",
+    "Tirar los dados con libertad es la mejor forma de empezar la semana.",
+    "Mesa larga, opiniones diversas y sitio para cualquier formato de jugador.",
+    "La estrategia más compleja de la tarde es conseguir que todo el mundo encaje.",
+    "Aquí las fichas se mueven solas, pero las conexiones las creamos nosotros.",
+    "Tan válidos son los dados de seis caras como las formas de ser de cada uno.",
+    "Un buen grupo de juego se nota en que los dados nunca discriminan a nadie.",
+    "Menos normas absurdas y más ganas de compartir tablero sin prejuicios.",
+    "Da igual si juegas al rol, al eurogame o al party; lo importante es estar a gusto.",
+    "La diversidad de opiniones es el mejor motor para decidir qué juego sacamos.",
+    "Un espacio abierto donde las únicas discusiones sanas ocurren sobre el tablero.",
+    "Acercar una silla y hacer sitio es la seña de identidad de cualquier buena mesa.",
+    "El azar reparte las cartas, pero el respeto mutuo lo ponemos nosotros.",
+    "Jugar en comunidad significa que siempre hay alguien dispuesto a explicarte las reglas.",
+    "No hace falta ganar para disfrutar de una tarde redonda rodeado de gente maja.",
+    "Las mejores alianzas se forman entre personas que no se conocían de nada.",
+    "Un tablero despliega infinitas opciones; nuestra comunidad también.",
+    "Aquí caben todos los puntos de vista, las risas flojas y los fallos de cálculo.",
+    "Compartir mesa es el puente más corto para dejar atrás cualquier diferencia.",
+    "Los dados caen donde quieren, pero el compañerismo lo decidimos nosotros.",
+    "Un espacio seguro donde la única presión es decidir qué expansión jugamos.",
+    "La mesa de juego es el punto de encuentro perfecto para cualquier formato de persona.",
+    "Estrategia, azar y cero postureo: los ingredientes de una tarde inolvidable.",
+    "Celebrar la variedad de formas de jugar es lo que hace grande a este grupo.",
+    "Abre el manual, busca una silla libre y forma parte de la partida."
+];
+
+function cargarFraseAleatoria() {
+    const indiceAleatorio = Math.floor(Math.random() * frasesJuegos.length);
+    const elementoBlockquote = document.getElementById("fraseDinamica");
+    if (elementoBlockquote) {
+        elementoBlockquote.textContent = `"${frasesJuegos[indiceAleatorio]}"`;
+    }
+}
+
+function actualizarRelojCabecera() {
+    const ahora = new Date();
+    const textoFecha = ahora.toLocaleDateString("es-ES", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+    const textoHora = ahora.toLocaleTimeString("es-ES", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    });
+
+    const fechaCapitalizada = textoFecha.charAt(0).toUpperCase() + textoFecha.slice(1);
+    const elFecha = document.getElementById("fechaHoy");
+    if(elFecha) elFecha.textContent = `${fechaCapitalizada} — ${textoHora}`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+    cargarFraseAleatoria();
+    actualizarRelojCabecera();
+    setInterval(actualizarRelojCabecera, 1000);
+
     const container = document.getElementById("floating-games-container");
     const gameEmotes = ["🎲", "♟️", "👑", "♞", "🃏", "🎯", "🧩", "🦄", "🌈"];
 
